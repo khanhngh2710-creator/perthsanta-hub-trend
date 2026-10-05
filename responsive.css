@@ -1,0 +1,10 @@
+/* Extra mobile-first tweaks */
+@media (max-width: 420px) {
+  .count, .grid-4, .grid-3 { grid-template-columns: 1fr; }
+  .brand span { display: none; }
+}
+@media (min-width: 901px) {
+  .bottom-nav { display: none !important; }
+  .site-footer { padding-bottom: 36px; }
+  main { padding-bottom: 48px; }
+}
