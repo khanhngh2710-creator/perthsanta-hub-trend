@@ -77,7 +77,7 @@ function toolCard(label, href) {
   return `<a class="card" href="${PS.prefix()}${href}"><h3>${label}</h3><p class="muted">${PS.t("open")}</p></a>`;
 }
 function seriesCard(s) {
-  return `<article class="card"><div class="cover"><span>${s.title}</span></div><p class="badge demo">${PS.t("demoLabel")}</p><h3>${s.title}</h3><p class="muted">${s.description}</p><p>${PS.t("episodes")}: ${s.episodes} · ${PS.t("status")}: ${s.status}</p><div class="row">${favButton("series", s.id)}<a class="btn small" href="${PS.prefix()}series/${s.slug}.html">${PS.t("open")}</a></div></article>`;
+  return `<article class="card"><div class="cover"><span>${s.title}</span></div><p class="badge demo">${PS.t("demoLabel")}</p><h3>${s.title}</h3><p class="muted">${s.description}</p><p>${PS.t("episodes")}: ${s.episodes} · ${PS.t("status")}: ${s.status}</p><div class="row">${favButton("series", s.id)}<a class="btn small" href="${PS.prefix()}${s.slug}.html">${PS.t("open")}</a></div></article>`;
 }
 function eventCard(ev) {
   return `<article class="card"><p class="badge demo">${ev.demo ? PS.t("sampleEvent") : ev.status}</p><h3>${ev.event}</h3><p>${ev.date} · ${ev.time} ${ev.timezone}</p><p class="muted">${ev.artist} · ${ev.location} · ${ev.platform}</p><div class="row">${favButton("events", ev.id)}${ev.officialLink ? `<a class="btn small" href="${ev.officialLink}">Link</a>` : ""}</div></article>`;
@@ -107,7 +107,7 @@ function renderSeriesDetail(id) {
   };
 }
 function epRow(ep) {
-  return `<article class="card ep-card"><div class="ep-num">${String(ep.number).padStart(2, "0")}</div><div><h3>${ep.title}</h3><p class="muted">${ep.date} · ${ep.status}</p><p class="hash">${ep.hashtags[0]}</p></div><div class="actions row">${favButton("episodes", `${ep.seriesId}-${ep.number}`)}<a class="btn small" href="${PS.prefix()}episodes/episode.html?series=${ep.seriesId}&ep=${ep.number}">${PS.t("viewEpisode")}</a></div></article>`;
+  return `<article class="card ep-card"><div class="ep-num">${String(ep.number).padStart(2, "0")}</div><div><h3>${ep.title}</h3><p class="muted">${ep.date} · ${ep.status}</p><p class="hash">${ep.hashtags[0]}</p></div><div class="actions row">${favButton("episodes", `${ep.seriesId}-${ep.number}`)}<a class="btn small" href="${PS.prefix()}episode.html?series=${ep.seriesId}&ep=${ep.number}">${PS.t("viewEpisode")}</a></div></article>`;
 }
 function renderEpisode() {
   const q = PS.qs();
@@ -122,7 +122,7 @@ function renderEpisode() {
     <p class="badge demo">${PS.t("demoLabel")}</p>
     <h2>${ep.title}</h2>
     <p>${ep.date} · ${ep.time}</p>
-    <article class="card"><h3>Synopsis</h3><p>${ep.synopsis}</p><h3>Characters</h3><p>${ep.characters}</p><h3>Key moments</h3><ul>${ep.moments.map((m) => `<li>${m}</li>`).join("")}</ul><h3>${PS.t("goal")}</h3><p>${ep.target}</p><p class="hash">${ep.hashtags.join(" ")}</p><p>${ep.campaign}</p><div class="row"><button class="btn small" type="button" data-copy="${ep.hashtags[0]}">${PS.t("copyHashtag")}</button><a class="btn small" href="${PS.prefix()}generator.html?series=${ep.seriesId}&tag=${encodeURIComponent(ep.hashtags[0])}">${PS.t("generate")}</a>${favButton("episodes", `${ep.seriesId}-${ep.number}`)}<a class="btn ghost small" href="${PS.prefix()}series/${series.slug}.html">${PS.t("backSeries")}</a></div></article>`;
+    <article class="card"><h3>Synopsis</h3><p>${ep.synopsis}</p><h3>Characters</h3><p>${ep.characters}</p><h3>Key moments</h3><ul>${ep.moments.map((m) => `<li>${m}</li>`).join("")}</ul><h3>${PS.t("goal")}</h3><p>${ep.target}</p><p class="hash">${ep.hashtags.join(" ")}</p><p>${ep.campaign}</p><div class="row"><button class="btn small" type="button" data-copy="${ep.hashtags[0]}">${PS.t("copyHashtag")}</button><a class="btn small" href="${PS.prefix()}generator.html?series=${ep.seriesId}&tag=${encodeURIComponent(ep.hashtags[0])}">${PS.t("generate")}</a>${favButton("episodes", `${ep.seriesId}-${ep.number}`)}<a class="btn ghost small" href="${PS.prefix()}${series.slug}.html">${PS.t("backSeries")}</a></div></article>`;
 }
 function renderTrends() {
   const platforms = [
@@ -140,7 +140,7 @@ function renderTrends() {
   };
 }
 function platformCard(p) {
-  return `<article class="card"><p class="badge">${p[0]}</p><h3>${PS.t("current")}</h3><p class="hash">${p[2]}</p><p>${PS.t("goal")}: ${p[3]}</p><p class="note">${PS.t("demoLabel")}</p><div class="row"><button class="btn small" type="button" data-copy="${p[2]}">${PS.t("copy")}</button><a class="btn ghost small" href="${PS.prefix()}guides/${p[1]}.html">${PS.t("open")}</a></div></article>`;
+  return `<article class="card"><p class="badge">${p[0]}</p><h3>${PS.t("current")}</h3><p class="hash">${p[2]}</p><p>${PS.t("goal")}: ${p[3]}</p><p class="note">${PS.t("demoLabel")}</p><div class="row"><button class="btn small" type="button" data-copy="${p[2]}">${PS.t("copy")}</button><a class="btn ghost small" href="${PS.prefix()}${p[1]}.html">${PS.t("open")}</a></div></article>`;
 }
 function renderEvents() {
   const today = PS.todayISO();
@@ -278,7 +278,7 @@ function renderGuide(key) {
   document.getElementById("app").innerHTML = guideBody(g[0], g[1], g[2]);
 }
 function renderGuides() {
-  document.getElementById("app").innerHTML = `<h1>${PS.t("navGuides")}</h1><div class="grid grid-2">${Object.keys(GUIDES).map((k) => `<a class="card" href="${PS.prefix()}guides/${k}.html"><h3>${GUIDES[k][0]}</h3><p class="muted">${PS.t("open")}</p></a>`).join("")}</div><section class="section card" id="disclaimer"><h2>${PS.t("privacy")}</h2><p>${PS.t("disclaimer")}</p><p>This site stores only language, theme, favorites, and recently viewed episodes in localStorage on your device. It does not collect accounts or personal data.</p></section>`;
+  document.getElementById("app").innerHTML = `<h1>${PS.t("navGuides")}</h1><div class="grid grid-2">${Object.keys(GUIDES).map((k) => `<a class="card" href="${PS.prefix()}${k}.html"><h3>${GUIDES[k][0]}</h3><p class="muted">${PS.t("open")}</p></a>`).join("")}</div><section class="section card" id="disclaimer"><h2>${PS.t("privacy")}</h2><p>${PS.t("disclaimer")}</p><p>This site stores only language, theme, favorites, and recently viewed episodes in localStorage on your device. It does not collect accounts or personal data.</p></section>`;
 }
 function bindCopy() {
   document.querySelectorAll("[data-copy]").forEach((btn) => { btn.onclick = () => PS.copy(btn.dataset.copy); });
